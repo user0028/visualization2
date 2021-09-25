@@ -1,0 +1,35 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 700, "height": 400,
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data.csv"},
+    "transform": [
+        {
+            "filter": {"or": [
+                {"field": "continent", "equal": "Asia"}, 
+                {"field": "continent", "equal": "Europe"}, 
+                {"field": "continent", "equal": "Africa"}, 
+                {"field": "continent", "equal": "Oceania"},
+                {"field": "continent", "equal": "North America"},
+                {"field": "continent", "equal": "South America"}
+            ]}
+        }
+        
+    ],
+    "mark": "area",
+    "encoding": {
+      "x": {
+        "timeUnit": "yearmonth", "field": "date", 
+        "type": "temporal",
+        "axis": {"domain": false, "tickCount":"month", "labelAngle": -45}
+      },
+      "y": {
+        "aggregate": "sum",
+        "field": "total_deaths",
+        "type": "quantitative",
+        "stack": "center",
+        "axis": null
+      },
+      "color": {"field":"continent", "scale":{"scheme": "category10"}}
+    }
+  }
+  
