@@ -1,0 +1,39 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 700, "height": 400,
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data.csv"},
+    "mark": "circle",
+    "transform": [
+        {"filter": "datum.people_fully_vaccinated_per_hundred > 10"}
+    ], 
+    "encoding": {
+      "x": {
+        "aggregate":"max", "field": "gdp_per_capita",
+        "title": "GDP Per Capita",
+        "scale": {"type": "sqrt", "domain": [1, 120000]},
+        "axis": {"tickCount": 10}
+      },
+      "y": {
+        "aggregate":"max", "field": "people_fully_vaccinated_per_hundred",
+        "title": "People Vaccinated Per Hundred"
+      },
+      "color": {
+        "field": "location",
+        "scale": {"scheme": "category10"},
+        "legend":null
+      },
+      "size":{
+        "field": "population",
+        "type": "quantitative",
+        "scale": {
+            "type": "threshold",
+            "domain": [1000000, 10000000, 50000000, 100000000, 500000000],
+            "range": [10, 50, 150, 200, 300, 400]
+            }
+      },
+      "tooltip":[
+          {"field": "location"},
+          {"field": "gdp_per_capita", "title": "GDP Per Capita"}
+      ]
+    }
+  }
