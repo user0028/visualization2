@@ -1,0 +1,52 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 700, "height": 400,
+    "data": {
+        "url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data.csv"
+    },
+    "config": {
+        "view": {
+            "strokeWidth": 0,
+            "step": 13
+        },
+        "axis": {
+            "domain": false
+        }
+    },
+    "transform": [
+        {
+            "filter": {"or": [
+                {"field": "location", "equal": "Georgia"}, 
+                {"field": "location", "equal": "Brazil"}, 
+                {"field": "location", "equal": "United States"}, 
+                {"field": "location", "equal": "United Kingdom"},
+                {"field": "location", "equal": "Sri Lanka"},
+                {"field": "location", "equal": "Peru"}
+            ]}
+        }
+      ],
+    "mark": "rect",
+    "encoding": {
+        "x": {
+            "field": "date",
+            "timeUnit": "yearmonth",
+            "type": "temporal",
+            "title": "Date",
+            "axis": {
+                "labelAngle": -45
+            }
+        },
+        "y": {
+            "field": "location",
+            "type": "nominal",
+            "title": "Country"
+        },
+        "color": {
+            "field": "new_deaths_smoothed_per_million",
+            "type": "quantitative",
+            "legend": {
+                "title": null
+            }
+        }
+    }
+  }

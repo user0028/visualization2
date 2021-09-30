@@ -1,0 +1,36 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 700, "height": 400,
+    "data": {
+        "url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/asg2test.csv"
+    },
+    "transform": [
+        {
+          "calculate": "toNumber(datum.Vax)",
+          "as": "Vax"
+        },
+        {
+          "groupby": ["Country"],
+          "aggregate": [{"op": "max", "field": "Cases", "as": "CV"}, {"op": "max", "field": "Vax", "as": "VV"}]
+        }
+    ],
+    "mark": "point",
+    "encoding": {
+    "y": {
+        "field": "VV",
+        "title": "Vax",
+        "type": "quantitative"
+        },
+      "x": {
+        "field": "CV",
+        "title": "Cases",
+        "type": "quantitative"
+      },
+
+    "tooltip":[
+      {"field": "Country"}
+    ]
+    
+      
+    }
+  }

@@ -1,0 +1,21 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 700, "height": 400,
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data.csv"},
+    "mark": "line",
+    
+    "encoding": {
+        "x": {
+            "timeUnit": "yearmonth", "field": "date", 
+            "type": "temporal",
+            "axis": {"domain": false, "tickCount":"month", "labelAngle": -45}
+            },
+        "y": {
+            "aggregate":"max", "field": "new_cases_per_million"
+        },
+        "color": {
+            "field": "location",
+            "scale": {"scheme": "category10"}
+        }
+    }
+  }

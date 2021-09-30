@@ -1,0 +1,35 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 600,
+    "projection": {"type": "equirectangular"},
+    "data": {
+        "url": "https://raw.githubusercontent.com/user0028/visualization2/main/JS/world.geo.topojson",
+        "format": {"type": "topojson", "feature": "world.geo"}
+    },
+    "transform": [
+        {
+            "lookup": "properties.name",
+            "from": {
+                "data": {
+                    "url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/country_vaccinations.csv"
+                },
+                "key": "country",
+                "fields": ["people_fully_vaccinated_per_hundred"]
+            }
+        },
+        {"calculate": "datum.people_fully_vaccinated_per_hundred", "as": "Total Vaccinations/Hundred Population"}
+    ],
+    "mark": {"type": "geoshape"},
+    "encoding": {
+        "color": {
+            "field": "Total Vaccinations/Hundred Population",
+            "type": "quantitative",
+            "scale": {"scheme": "blues"}
+        },
+        "tooltip": [
+            {"field": "properties.name", "type": "nominal", "title": "Country"},
+            {"field": "Total Vaccinations/Hundred Population", "type": "quantitative"}
+        ]
+    }
+}

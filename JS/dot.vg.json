@@ -1,0 +1,19 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 700, "height": 400,
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data.csv"},
+    "mark": "point",
+    
+    "encoding": {
+      "x": {
+        "aggregate":"max", "field": "total_deaths_per_million"
+      },
+      "y": {
+        "aggregate":"max", "field": "people_fully_vaccinated_per_hundred"
+      },
+      "color": {
+        "field": "location",
+        "scale": {"scheme": "category10"}
+      }
+    }
+  }

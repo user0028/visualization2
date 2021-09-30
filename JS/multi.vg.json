@@ -1,0 +1,42 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data.csv"},
+  "width": 800,
+  "height": 600,
+  "encoding": {
+    "x": {"timeUnit": "yearmonth", "field": "date"}
+  },
+  "transform": [
+    {"calculate": "datum.people_fully_vaccinated_per_hundred", "as": "Vaccinations"},
+    {"filter": {"field": "location", "equal": "World"}}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "line", "color": "#d61f19"},
+      "encoding": {
+        "y": {
+          "aggregate": "average",
+          "field": "new_deaths_smoothed_per_million",
+          "title": "Deaths per million",
+          "axis": {"titleColor": "#d61f19"}
+        }
+      }
+    },
+    {
+      "mark": {"type": "line", "color": "#85C5A6"},
+      "encoding": {
+        "y": {
+          "aggregate": "max",
+          "field": "Vaccinations",
+          "title": "Vaccinations per hundred",
+          "axis": {"titleColor": "#85C5A6"}
+          
+
+        }
+      }
+    }
+  ],
+  "resolve": {"scale": {"y": "independent"}}
+    
+}
+
