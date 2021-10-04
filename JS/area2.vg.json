@@ -1,0 +1,59 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 700, "height": 400,
+    "title": "Vaccination progress",
+    "background": "#ffffff",
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data-complete%20-%20Copy.csv"},
+    "mark": "area",
+    "transform": [
+        {"filter": {"field": "location", "equal": "World"}},
+        {"filter": {"timeUnit":"year", "field": "date", "equal":2021}},
+        {
+          "calculate": "toNumber(datum.people_fully_vaccinated)",
+          "as": "people_fully_vaccinated"
+        },
+        {
+            "calculate": "toNumber(datum.people_vaccinated)",
+            "as": "people_vaccinated"
+        },
+        {
+            "timeUnit":"month",
+            "field": "date",
+            "as":"date2"
+        },
+        
+        {
+            "aggregate": [
+                {"op": "max", "field": "people_vaccinated", "as": "PV"}, 
+                {"op": "max", "field": "people_fully_vaccinated", "as": "Fully Vaccinated"}
+              ],
+            "groupby": ["date2"]
+        },
+        {"calculate": "datum.PV-datum['Fully Vaccinated']", "as": "Partially Vaccinated"},
+        {
+            "fold": ["Partially Vaccinated", "Fully Vaccinated"]
+        }
+
+
+    ],
+    "encoding": {
+      "x": {
+        "field": "date2", "type": "temporal",
+        "axis": {"format": "%b", "tickCount":"month"},
+        "title": "Month (2021)"
+      },
+      "y": {
+        "field": "value", "type": "quantitative",
+        "title": "People vaccinated"
+      },
+      "color": {
+        "field": "key",
+        "scale": {"scheme": "category10"}
+      },
+      "tooltip": [
+        {"field": "key", "title": "Vaccination completeness"},
+        {"field": "value", "title":"Number of people"}
+
+      ]
+    }
+  }
