@@ -1,12 +1,12 @@
 Country,date,people_vaccinated,people_fully_vaccinated,people_fully_vaccinated_per_hundred
-US,3/1/2021,2,,0.5
-US,4/3/2021,4,2,0.9
-US,5/4/2021,6,1.9
-US,6/5/2021,10,5,7
-UK,3/1/2021,8,7
-UK,4/3/2021,16,8,9
-SL,1/1/2021,10,,12
-SL,2/1/2021,10,,13
-SL,3/1/2021,10,,20
-SL,4/3/2021,20,10,25
-SG,4/3/2021,10,,10
+United States,3/1/2021,2,,0.5
+United States,4/3/2021,4,2,0.9
+United States,5/4/2021,6,1.9
+United States,6/5/2021,10,5,7
+United Kingdom,3/1/2021,8,7
+United Kingdom,4/3/2021,16,8,9
+Sri Lanka,1/1/2021,10,,12
+Sri Lanka,2/1/2021,10,,13
+Sri Lanka,3/1/2021,10,,20
+Sri Lanka,4/3/2021,20,10,25
+Singapore,4/3/2021,10,,10
