@@ -2,23 +2,25 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": 800,
     "height": 600,
+    "background": "#ffffff",
+    "title": {"text":"Spread in various regions", "color": "white"},
     "projection": {"type": "equirectangular"},
     "data": {
-        "url": "https://raw.githubusercontent.com/user0028/week9/main/asia.geo.topojson",
-        "format": {"type": "topojson", "feature": "asia.geo"}
+        "url": "https://raw.githubusercontent.com/user0028/visualization2/main/JS/world.geo.topojson",
+        "format": {"type": "topojson", "feature": "world.geo"}
     },
     "transform": [
         {
             "lookup": "properties.name",
             "from": {
                 "data": {
-                    "url": "https://raw.githubusercontent.com/user0028/week9/main/Latest%20Covid-19%20Data%20in%20Asia.csv"
+                    "url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data.csv"
                 },
-                "key": "Country",
-                "fields": ["DeathsPer1MPopulation"]
+                "key": "location",
+                "fields": ["total_deaths_per_million"]
             }
         },
-        {"calculate": "datum.DeathsPer1MPopulation", "as": "Total Deaths/1M Population"}
+        {"calculate": "datum.total_deaths_per_million", "as": "Total Deaths/1M Population"}
     ],
     "mark": {"type": "geoshape"},
     "encoding": {

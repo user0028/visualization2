@@ -1,0 +1,78 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Which countries have the highest vaccinated population",
+    "width": 700, "height": 400,
+    "background": "#ffffff",
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data-complete%20-%20Copy.csv"},
+    "config": {
+        "style": {
+          "cell": {
+            "stroke": "transparent"
+          }
+        }
+    },
+    "transform": [
+        {
+            "filter": {"not": {"field": "location", "oneOf": ["World", "Asia", "Europe", "North America", "South America", "Africa", "Oceania", "European Union", "Gibraltar"]}}
+        },
+        {
+          "calculate": "toNumber(datum.people_vaccinated_per_hundred)",
+          "as": "people_vaccinated_per_hundred"
+        },
+        {
+            "calculate": "toNumber(datum.people_fully_vaccinated_per_hundred)",
+            "as": "people_fully_vaccinated_per_hundred"
+        },
+        
+        {
+            "aggregate": [
+                {"op": "max", "field": "people_vaccinated_per_hundred", "as": "Total Vaccinated"}, 
+                {"op": "max", "field": "people_fully_vaccinated_per_hundred", "as": "Fully Vaccinated"}
+              ],
+            "groupby": ["location"]
+        },
+        {"calculate": "datum['Total Vaccinated']-datum['Fully Vaccinated']", "as": "Partially Vaccinated"},
+        {
+            "window": [{
+              "op": "rank",
+              "as": "rank"
+            }],
+            "sort": [{ "field": "Total Vaccinated", "order": "descending" }]
+        }, 
+        {
+            "filter": "datum.rank <= 7"
+        },
+        {
+            "fold": ["Partially Vaccinated", "Fully Vaccinated"]
+        }
+        
+    ],
+    "mark": {"type": "bar"},
+    "encoding": {
+      "y": {
+            "field": "location", "title":"Country",
+            "sort": {"field": "Total Vaccinated", "order": "descending"},
+            "axis":{"domain": false}
+      },
+      
+      "x": {
+            "field": "value", "type": "quantitative", "title":"Percentage Vaccinated", 
+            "axis":{"grid": false, "ticks": false, "labels": false, "domain": false}
+      },
+
+      "color":{
+          "field":"key",
+          "scale": {"scheme": "darkblue"}
+      },
+
+      "tooltip":[
+        {"field": "Fully Vaccinated", "title": "% of People Fully Vaccinated"},
+        {"field": "Partially Vaccinated", "title": "% People of Partially Vaccinated"},
+        {"field": "Total Vaccinated", "title": "% Of People With At Least One Dose"}
+
+        
+      ]
+    }
+    
+  }
+  

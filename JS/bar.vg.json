@@ -1,0 +1,63 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "What vaccine type is used the most?",
+    "width": 700, "height": 400,
+    "background": "#ffffff",
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/country_vaccinations_by_manufacturer.csv"},
+    "config": {
+        "style": {
+          "cell": {
+            "stroke": "transparent"
+          }
+        }
+    },
+    "transform": [
+        {
+            "calculate": "toNumber(datum.total_vaccinations)",
+            "as": "total_vaccinations"
+        },
+        {
+            "aggregate": [
+                {"op": "max", "field": "total_vaccinations", "as": "TV"}
+            ],
+            "groupby": ["location", "vaccine"]
+        },
+        {
+            "aggregate": [
+                {"op": "sum", "field": "TV", "as": "TV"}
+            ],
+            "groupby": ["vaccine"]
+        }
+    ],
+    "encoding": {
+      "y": {"field": "vaccine", "type": "nominal", "title":null,
+            "axis":{"domain": false}
+      },
+
+      "x": {
+          "field": "TV", "type": "quantitative", "title":null, "sort": {"field": "TV", "order": "ascending"},
+          "axis":{"grid": false, "ticks": false, "labels": false, "domain": false}
+      },
+
+      "tooltip":[
+        {"field": "TV", "title": "Total doses"}
+      ]
+    },
+    "layer": [
+      {
+        "mark": {"type": "bar"}
+      }, 
+      {
+        "mark": {
+          "type": "text",
+          "align": "left",
+          "baseline": "middle",
+          "dx": 3
+        },
+        "encoding": {
+          "text": {"field": "TV", "type": "quantitative"}
+        }
+      }
+    ]
+  }
+  

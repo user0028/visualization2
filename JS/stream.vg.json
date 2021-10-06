@@ -1,6 +1,8 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": 700, "height": 400,
+    "background": "#fdfdfd",
+    "title": {"text":"Spread in various regions", "color": "black"},
     "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data.csv"},
     "transform": [
         {
@@ -24,12 +26,20 @@
       },
       "y": {
         "aggregate": "sum",
-        "field": "total_deaths",
+        "field": "new_cases_smoothed_per_million",
         "type": "quantitative",
         "stack": "center",
         "axis": null
       },
-      "color": {"field":"continent", "scale":{"scheme": "category10"}}
+      "color": {
+        "field":"continent", "scale":{"scheme": "category10"}
+      },
+      "tooltip": [
+        {"field": "continent", "title": "Continent"},
+        {"field": "new_cases_smoothed_per_million", "aggregate":"sum", "title":"New Cases"},
+        {"timeUnit": "yearmonth", "field": "date", "title": "Month and Year"}
+      ]
     }
+    
   }
   
