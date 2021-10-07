@@ -3,7 +3,7 @@
   "width": 700, "height": 400,
   "title": "Vaccination progress",
   "background": "#ffffff",
-  "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data-complete%20-%20Copy.csv"},
+  "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_area.csv"},
   "mark": "area",
   "params": [
     {
@@ -97,7 +97,7 @@
     },
     "color": {
       "field": "key",
-      "scale": {"scheme": "category10"}
+      "scale": {"scheme": "darkblue"}
     },
     "tooltip": [
       {"field": "key", "title": "Vaccination completeness"},

@@ -3,7 +3,7 @@
     "title": "Which countries have the highest vaccinated population",
     "width": 700, "height": 400,
     "background": "#ffffff",
-    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data-complete%20-%20Copy.csv"},
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_stack.csv"},
     "config": {
         "style": {
           "cell": {
@@ -13,7 +13,7 @@
     },
     "transform": [
         {
-            "filter": {"not": {"field": "location", "oneOf": ["World", "Asia", "Europe", "North America", "South America", "Africa", "Oceania", "European Union", "Gibraltar"]}}
+            "filter": {"not": {"field": "location", "oneOf": ["World", "Asia", "Europe", "North America", "South America", "Africa", "Oceania", "European Union", "Gibraltar", "Pitcairn"]}}
         },
         {
           "calculate": "toNumber(datum.people_vaccinated_per_hundred)",

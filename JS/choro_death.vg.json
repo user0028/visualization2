@@ -3,7 +3,7 @@
     "width": 800,
     "height": 600,
     "background": "#ffffff",
-    "title": {"text":"Spread in various regions", "color": "white"},
+    "title": {"text":"Death in various regions", "color": "white"},
     "projection": {"type": "equirectangular"},
     "data": {
         "url": "https://raw.githubusercontent.com/user0028/visualization2/main/JS/world.geo.topojson",
@@ -14,7 +14,7 @@
             "lookup": "properties.name",
             "from": {
                 "data": {
-                    "url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data.csv"
+                    "url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_choro_death.csv"
                 },
                 "key": "location",
                 "fields": ["total_deaths_per_million"]

@@ -1,0 +1,96 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 700, "height": 400,
+    "title": "Is the economy of a country related to its vaccination rate?",
+    "background": "#ffffff",
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/countries-aggregated_csv.csv"},
+    
+    "transform": [
+        {
+            "filter":
+                {"or": 
+                    [
+                        {"field": "Country", "equal":"Haiti"},
+                        {"field": "Country", "equal":"Yemen"},
+                        {"field": "Country", "equal":"Papua New Guinea"},
+                        {"field": "Country", "equal":"Sudan"},
+                        {"field": "Country", "equal":"Mali"}
+                    ]
+                }
+        },
+        
+        {
+          "calculate": "toNumber(datum.Deaths)",
+          "as": "Deaths"
+        },
+        
+        {
+            "aggregate": [
+                {"op": "max", "field": "Deaths", "as": "Deaths"},
+                {"op": "max", "field": "Recovered", "as": "Recovered"}
+              ],
+            "groupby": ["Country"]
+        },
+        
+        {
+            "lookup": "Country",
+            "from": {
+                "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/population_data.csv"},
+                "key": "name",
+                "fields": ["pop_per_thousand"]
+            }
+        },
+        {
+            "calculate": "datum.Deaths/(datum.pop_per_thousand * 1000) * 1000",
+            "as": "Deaths Per Population"
+        },
+        {
+            "calculate": "datum.Recovered/(datum.pop_per_thousand * 1000) * 1000",
+            "as": "Recovered Per Population"
+        }
+        
+    ],
+    "encoding": {
+        "y": {
+            "field": "Country",
+            "title": "Country",
+            "axis": {"domain": false}
+          }
+    },
+    "layer": [
+        {
+            "mark": {
+                "type":"circle",
+                "size": 250,
+                "color":"red"
+            },
+            "encoding": {
+                "x": {
+                    "field": "Deaths Per Population",
+                    "title": "Deaths/1000 Population",
+                    "scale": {"type": "sqrt", "domain": [0,25]},
+                    "axis": {"domain": false}
+                }
+            }
+            
+        },
+        {
+            "mark":{
+                "type":"circle",
+                "size": 250,
+                "color":"gray"
+            },
+            "encoding": {
+                
+                "x": {
+                    "field": "Recovered Per Population",
+                    "title": "Recovered/1000 Population",
+                    "scale": {"type": "sqrt", "domain": [0,25]},
+                    "axis": {"domain": false}
+                }
+            }
+
+        }
+    ],
+    "resolve": {"scale": {"x": "independent"}}
+  }

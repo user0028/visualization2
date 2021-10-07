@@ -3,17 +3,17 @@
     "width": 700, "height": 400,
     "background": "#fdfdfd",
     "title": {"text":"Spread in various regions", "color": "black"},
-    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data.csv"},
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_stream.csv"},
     "transform": [
         {
-            "filter": {"or": [
-                {"field": "continent", "equal": "Asia"}, 
-                {"field": "continent", "equal": "Europe"}, 
-                {"field": "continent", "equal": "Africa"}, 
-                {"field": "continent", "equal": "Oceania"},
-                {"field": "continent", "equal": "North America"},
-                {"field": "continent", "equal": "South America"}
-            ]}
+            "filter": 
+            {"and": [
+              {"field": "continent", "valid": false},
+              {"field": "date", "lte":{"year": 2021, "month":"sep", "date": 30}}
+              ]
+            }
+            
+
         }
         
     ],

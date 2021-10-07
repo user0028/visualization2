@@ -3,7 +3,7 @@
     "width": 700, "height": 400,
     "title": "Is the economy of a country related to its vaccination rate?",
     "background": "#ffffff",
-    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data.csv"},
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_bubble.csv"},
     "mark": "circle",
     "params": [
       {
