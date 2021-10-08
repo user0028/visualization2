@@ -1,9 +1,19 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 700, "height": 400,
-  "title": "Vaccination progress",
-  "background": "#ffffff",
+  "width": 600, "height": 400,
+  "background": "#292d36",
+  "config": {
+    "style": {
+      "cell": {
+        "stroke": "transparent"
+      }
+    },
+    "axis": {"gridColor": "#414146", "titleColor":"#bebecc", "labelColor":"#bebecc", "labelFontSize": 13 , "titleFontSize": 15},
+    "legend": {"titleColor":"#bebecc", "labelColor":"#bebecc", "orient": "top", "labelFontSize": 13, "title": null}
+  },
   "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_area.csv"},
+  
+  
   "mark": "area",
   "params": [
     {
@@ -100,8 +110,9 @@
       "scale": {"scheme": "darkblue"}
     },
     "tooltip": [
-      {"field": "key", "title": "Vaccination completeness"},
-      {"field": "value", "title":"Number of people"}
+      {"field": "Partially Vaccinated", "title": "Partially Vaccinated", "format":",d"},
+      {"field": "Fully Vaccinated", "title":"Fully Vaccinated", "format":",d"},
+      {"field": "PV", "title":"At least one dose", "format":",d"}
 
     ]
   }

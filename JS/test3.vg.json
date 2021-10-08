@@ -1,113 +1,137 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 700, "height": 400,
-    "title": "Is the economy of a country related to its vaccination rate?",
-    "background": "#ffffff",
-    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_bubble.csv"},
-    "mark": "circle",
-    "params": [
-      {
-        "name": "Continent_selection",
-        "bind": {
-          "input": "select",
-          "options": [
-            null,
-            
-            "Africa",
-            "Asia",
-            "Europe",
-            "North America",
-            "Oceania",
-            "South America"
-          ],
-          "labels": [
-            "All",
-            
-            "Africa",
-            "Asia",
-            "Europe",
-            "North America",
-            "Oceania",
-            "South America"
-          ],
-          "name": "Continent Selection  "
-        }
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 1350, "height": 500,
+  "background": "#292d36",
+  "config": {
+    "style": {
+      "cell": {
+        "stroke": "transparent"
       }
-    ],
-    "transform": [
-        {
-          "filter": "Continent_selection == null || datum.continent == Continent_selection"
-        },
-        {
-          "calculate": "toNumber(datum.people_fully_vaccinated_per_hundred)",
-          "as": "people_fully_vaccinated_per_hundred"
-        },
-        {
-          "calculate": "toNumber(datum.total_vaccinations)",
-          "as": "total_vaccinations"
-        },
-        {
-            "aggregate": [
-                {"op": "max", "field": "gdp_per_capita", "as": "GDP"}, 
-                {"op": "max", "field": "people_fully_vaccinated_per_hundred", "as": "VAX"},
-                {"op": "max", "field": "total_vaccinations", "as": "Total Vaccination Doses Given"}
-              ],
-            "groupby": ["continent",  "location"]
-        }
-    ],
-    "encoding": {
-      "x": {
-        "field": "GDP",
-        "title": "GDP Per Capita",
-        "scale": {"type": "sqrt", "domain": [1, 120000]},
-        "axis": {"tickCount": 10}
-      },
-      "y": {
-        "field": "VAX",
-        "title": "People Vaccinated Per Hundred 101",
-        "scale": {"type": "linear", "domain": [0, 90]},
-        "axis": {"tickCount": 10}
-      },
-      "size":{
-        "field": "Total Vaccination Doses Given",
-        "type": "quantitative",
-        "scale": {
-            "type": "threshold",
-            "domain": [500000, 10000000, 50000000, 100000000, 500000000],
-            "range": [10, 50, 150, 200, 300, 400]
-            }
-      },
-      "color":{
-        "field": "continent",
-        "type": "nominal",
-        "scale": {
-          "domain": [
-            "Africa",
-            "Asia",
-            "Europe",
-            "North America",
-            "Oceania",
-            "South America"
-          ],
-          "range": [
-            "#1f77b4",
-            "#ff7f0e",
-            "#2ca02c",
-            "#d62728",
-            "#9467bd",
-            "#8c564b"
-          ]
-        }
-      },
-      "tooltip": [
-        {"field": "GDP", "title": "GDP Per Capita"},
-        {"field": "location", "title": "Country"},
-        {"field": "VAX", "title": "% of people vaccinated"},
-        {"field": "Total Vaccination Doses Given", "title": "Total Vaccination Doses"}
-      ]
+    },
+    "axis": {"gridColor": "#3a3a3d", "titleColor":"#bebecc", "labelColor":"#bebecc", "labelFontSize": 13 , "titleFontSize": 15},
+    "legend": {"titleColor":"#bebecc", "labelColor":"#bebecc", "labelFontSize": 13 , "titleFontSize": 15}
+  },
+  "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_bubble.csv"},
+  "mark": "circle",
+  "params": [
+    {
+      "name": "Doses",
+      "value": 0,
+      "bind": {
+      "input": "range",
+      "min": 0,
+      "max": 100000000,
+      "step": 1000000,
+      "name": "Minimum Doses: "
+      }
+    },
+    {
+      "name": "Continent_selection",
+      "bind": {
+        "input": "select",
+        "options": [
+          null,
           
+          "Africa",
+          "Asia",
+          "Europe",
+          "North America",
+          "Oceania",
+          "South America"
+        ],
+        "labels": [
+          "All",
           
-          
-
+          "Africa",
+          "Asia",
+          "Europe",
+          "North America",
+          "Oceania",
+          "South America"
+        ],
+        "name": "Continent Selection  "
+      }
     }
+  ],
+  "transform": [
+      {
+        "filter": "Continent_selection == null || datum.continent == Continent_selection"
+      },
+      {
+        "calculate": "toNumber(datum.people_fully_vaccinated_per_hundred)",
+        "as": "people_fully_vaccinated_per_hundred"
+      },
+      {
+        "calculate": "toNumber(datum.total_vaccinations)",
+        "as": "total_vaccinations"
+      },
+      {"filter": "datum.total_vaccinations > Doses"},
+      {
+          "aggregate": [
+              {"op": "max", "field": "gdp_per_capita", "as": "GDP"}, 
+              {"op": "max", "field": "people_fully_vaccinated_per_hundred", "as": "VAX"},
+              {"op": "max", "field": "total_vaccinations", "as": "Total Vaccination Doses Given"}
+            ],
+          "groupby": ["continent",  "location"]
+      }
+  ],
+  "encoding": {
+    "x": {
+      "field": "GDP",
+      "title": "GDP Per Capita",
+      "scale": {"type": "sqrt", "domain": [1, 120000]},
+      "axis": {"tickCount": 10}
+    },
+    "y": {
+      "field": "VAX",
+      "title": "Percentage of people vaccinated",
+      "scale": {"type": "linear", "domain": [0, 90]},
+      "axis": {"tickCount": 10}
+    },
+    "size":{
+      "field": "Total Vaccination Doses Given",
+      "type": "quantitative",
+      "scale": {
+          "type": "threshold",
+          "domain": [500000, 10000000, 50000000, 100000000, 500000000],
+          "range": [10, 50, 150, 200, 300, 400]
+      },
+      "legend":{"symbolFillColor":"#bebecc", "title":["Total vaccination", "doses administered"]}
+    },
+    "color":{
+      "field": "continent",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "Africa",
+          "Asia",
+          "Europe",
+          "North America",
+          "Oceania",
+          "South America"
+        ],
+        "range": [
+          "#1f77b4",
+          "#ff7f0e",
+          "#2ca02c",
+          "#d62728",
+          "#9467bd",
+          "#8c564b"
+        ]
+      },
+      "legend":{
+        "title":"Continent"
+      }
+    },
+    "tooltip": [
+      {"field": "GDP", "title": "GDP Per Capita", "format":",d"},
+      {"field": "location", "title": "Country"},
+      {"field": "VAX", "title": "% of people vaccinated"},
+      {"field": "Total Vaccination Doses Given", "title": "Total Vaccination Doses", "format":",d"}
+    ]
+        
+        
+        
+
   }
+}

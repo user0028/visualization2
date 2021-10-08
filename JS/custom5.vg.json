@@ -1,0 +1,97 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 550, "height": 400,
+    "background": "#292d36",
+    "config": {
+        "style": {
+            "cell": {
+                "stroke": "#414146"
+            }
+        },
+        "axis": {"gridColor": "#414146", "titleColor":"#bebecc", "labelColor":"#bebecc", "labelFontSize": 13 , "titleFontSize": 15, "grid": false},
+        "legend": {"titleColor":"#bebecc", "labelColor":"#bebecc"}
+    },
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/countries-aggregated_csv.csv"},
+    
+    "transform": [
+        {
+            "filter":
+                {"or": 
+                    [
+                        {"field": "Country", "equal":"United Arab Emirates"},
+                        {"field": "Country", "equal":"Portugal"},
+                        {"field": "Country", "equal":"Cuba"},
+                        {"field": "Country", "equal":"Iceland"},
+                        {"field": "Country", "equal":"Malta"}
+                    ]
+                }
+        },
+        
+        {
+          "calculate": "toNumber(datum.Deaths)",
+          "as": "Deaths"
+        },
+        
+        {
+            "aggregate": [
+                {"op": "max", "field": "Deaths", "as": "Deaths"},
+                {"op": "max", "field": "Recovered", "as": "Recovered"}
+              ],
+            "groupby": ["Country"]
+        },
+        
+        {
+            "lookup": "Country",
+            "from": {
+                "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_dot.csv"},
+                "key": "location",
+                "fields": ["population", "people_vaccinated_per_hundred"]
+            }
+        },
+        {
+            "calculate": "datum.Deaths/(datum.population) * 1000",
+            "as": "Deaths"
+        },
+        {
+            "calculate": "datum.Recovered/(datum.population) * 1000",
+            "as": "Recovered"
+        },
+        {
+            "calculate": "toNumber(datum.people_vaccinated_per_hundred)",
+            "as": "people_vaccinated_per_hundred"
+        },
+        {
+            "fold": ["Deaths", "Recovered"]
+        }
+        
+    ],
+    "mark": {
+        "type":"circle",
+        "size": 250
+    },
+    "encoding": {
+        "y": {
+            "field": "Country",
+            "title": "Country",
+            "axis": {"domain": false, "title":null}
+        },
+        "x": {
+            "field": "value",
+            "type": "quantitative",
+            "title": "Number of people/1000 Population",
+            "scale": {"type": "sqrt", "domain": [0,25]},
+            "axis": {"domain": false}
+        },
+        "tooltip":[
+            {"field":"Deaths", "title":"Deaths/1000 Population", "format":".2f"},
+            {"field": "Recovered", "title":"Recovered/1000 Population", "format":".2f"},
+            {"field": "people_vaccinated_per_hundred", "title":"Percentage vaccinated"}
+        ],
+        "color":{
+            "field": "key",
+            "legend": null,
+            "scale": {"range": ["red", "#19c24c"]}
+        }
+
+    }
+  }

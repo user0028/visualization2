@@ -1,42 +1,130 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data.csv"},
-  "width": 800,
-  "height": 600,
-  "encoding": {
-    "x": {"timeUnit": "yearmonth", "field": "date"}
-  },
+  "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_choro_death.csv"},
   "transform": [
-    {"calculate": "datum.people_fully_vaccinated_per_hundred", "as": "Vaccinations"},
-    {"filter": {"field": "location", "equal": "World"}}
+      {"filter":{"field": "location", "equal":"World"}},
+      {"calculate": "toNumber(datum.new_cases_smoothed_per_million)", "as": "new_cases_smoothed_per_million"}
   ],
-  "layer": [
-    {
-      "mark": {"type": "line", "color": "#d61f19"},
-      "encoding": {
-        "y": {
-          "aggregate": "average",
-          "field": "new_deaths_smoothed_per_million",
-          "title": "Deaths per million",
-          "axis": {"titleColor": "#d61f19"}
-        }
-      }
-    },
-    {
-      "mark": {"type": "line", "color": "#85C5A6"},
-      "encoding": {
-        "y": {
-          "aggregate": "max",
-          "field": "Vaccinations",
-          "title": "Vaccinations per hundred",
-          "axis": {"titleColor": "#85C5A6"}
-          
+  "vconcat": [{
+      "width": 850,
+      "height": 600,
+      "projection": {"type": "equirectangular"},
+      "data": {
+          "url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_choro_death.csv"
+      },
+      "transform": [
+          {"filter": {"param": "time_brush"}},
+          {"calculate": "toNumber(datum.new_deaths_smoothed_per_million)", "as": "new_deaths_smoothed_per_million"},
+          {
+              "aggregate": [
+                  {"op": "sum", "field": "new_deaths_smoothed_per_million", "as": "deaths_sum"}
+              ],
+              "groupby": ["location"]
+          },
+          {
+              "lookup": "location",
+              "from": {
+                  "data": {
+                      "url": "https://raw.githubusercontent.com/user0028/visualization2/main/JS/world.geo.topojson",
+                      "format": {"type": "topojson", "feature": "world.geo"}
+                  },
+                  
+                  "key": "properties.name"
+              },
+              "as":"geo"
+          }
+      ],
 
+      "encoding": {
+          "shape":{
+              "field": "geo",
+              "type":"geojson"
+          },
+          "color": {
+              "field": "deaths_sum",
+              "type": "quantitative",
+              "scale": {"scheme": "reds"},
+              "legend": {"title": ["Total Deaths/1M", "Population"], "labelFontSize": 13 , "titleFontSize": 15}
+          },
+          "tooltip": [
+              
+              {"field": "location", "type": "nominal", "title": "Country"},
+              {"field": "deaths_sum", "type": "quantitative", "title": "total Deaths/1M Population"}
+          ]
+      },
+      "layer":[
+        {
+          "mark": {"type": "geoshape"}
+        },
+        {
+          "transform": [
+            {
+              "window": [{"op":"rank", "as": "ranking"}],
+              "sort": [{"field": "deaths_sum", "order":"descending"}]
+            },
+            {"filter":"datum.ranking == 1"},
+            {
+              "calculate": " 'The country with the highest Deaths/1M population in the selected period: ' + datum['location']",
+              "as": "text_annotation" 
+            }
+          ],
+          "mark":{
+            "type": "text",
+            "align":"left",
+            "dy":175
+          },
+          "encoding": {
+            "text":{"field":"text_annotation"},
+            "color":{"value":"#bebecc"}
+          }
         }
+      ]
+  }, 
+  {
+    "width": 850,
+    "height": 120,
+    "mark": {"type":"area", "color":"darkred"},
+    "title": "Global Deaths Over Time (Select time period to filter the map above) ",
+    "params": [{
+      "name": "time_brush",
+      "select": {"type": "interval", "encodings": ["x"]}
+    }],
+    "encoding": {
+      "x": {
+        "field": "date",
+        "type": "temporal"
+      },
+      "y": {
+        "field": "new_deaths_smoothed_per_million",
+        "type": "quantitative",
+        "title": "Global Deaths/1M population",
+        "axis": {"tickCount": 3, "grid": false}
+      },
+      "color":{
+        "condition": {"param": "time_brush"},
+        "value": "#a84040"
       }
     }
-  ],
-  "resolve": {"scale": {"y": "independent"}}
-    
-}
+  }],
+  "config": {
+      "background": "#292d36",
+      "text": {
+          "color":"white"
+      },
+      "style": {
+          "cell": {
+              "stroke": "transparent"
+          }
+      },
+      "axis": {
+          "titleColor":"#bebecc", "labelColor":"#bebecc", "gridColor": "#3a3a3d"
+      },
+      "legend": {
+          "titleColor":"#bebecc", "labelColor":"#bebecc"
+      },
+      "title":{
+          "color":"#bebecc"
+      }
+  }
 
+}

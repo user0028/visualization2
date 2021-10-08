@@ -1,16 +1,18 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "title": "Which countries have the highest vaccinated population",
-    "width": 700, "height": 400,
-    "background": "#ffffff",
-    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_stack.csv"},
+    "width": 600, "height": 400,
+    "background": "#292d36",
     "config": {
-        "style": {
-          "cell": {
-            "stroke": "transparent"
-          }
+      "style": {
+        "cell": {
+          "stroke": "transparent"
         }
+      },
+      "axis": {"gridColor": "#414146", "titleColor":"#bebecc", "labelColor":"#bebecc", "labelFontSize": 13 , "titleFontSize": 15},
+      "legend": {"titleColor":"#bebecc", "labelColor":"#bebecc", "orient": "top", "labelFontSize": 13 , "title": null}
     },
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_stack.csv"},
+    
     "transform": [
         {
             "filter": {"not": {"field": "location", "oneOf": ["World", "Asia", "Europe", "North America", "South America", "Africa", "Oceania", "European Union", "Gibraltar", "Pitcairn"]}}
@@ -52,12 +54,12 @@
       "y": {
             "field": "location", "title":"Country",
             "sort": {"field": "Total Vaccinated", "order": "descending"},
-            "axis":{"domain": false}
+            "axis":{"domain": false, "title":null}
       },
       
       "x": {
-            "field": "value", "type": "quantitative", "title":"Percentage Vaccinated", 
-            "axis":{"grid": false, "ticks": false, "labels": false, "domain": false}
+            "field": "value", "type": "quantitative", "title":"Percentage Vaccinated",
+            "axis":{"grid": false, "domain": false}
       },
 
       "color":{
@@ -70,7 +72,6 @@
         {"field": "Partially Vaccinated", "title": "% People of Partially Vaccinated"},
         {"field": "Total Vaccinated", "title": "% Of People With At Least One Dose"}
 
-        
       ]
     }
     

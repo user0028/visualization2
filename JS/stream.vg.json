@@ -1,8 +1,16 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 700, "height": 400,
-    "background": "#fdfdfd",
-    "title": {"text":"Spread in various regions", "color": "black"},
+    "width": 900, "height": 400,
+    "background": "#292d36",
+    "config": {
+      "style": {
+        "cell": {
+          "stroke": "transparent"
+        }
+      },
+      "axis": {"gridColor": "#414146", "titleColor":"#bebecc", "labelColor":"#bebecc", "labelFontSize": 13 , "titleFontSize": 15},
+      "legend": {"titleColor":"#bebecc", "labelColor":"#bebecc", "labelFontSize": 13 , "titleFontSize": 15}
+    },
     "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_stream.csv"},
     "transform": [
         {
@@ -20,9 +28,10 @@
     "mark": "area",
     "encoding": {
       "x": {
-        "timeUnit": "yearmonth", "field": "date", 
+        "title": "Date",
+        "field": "date", 
         "type": "temporal",
-        "axis": {"domain": false, "tickCount":"month", "labelAngle": -45}
+        "axis": {"domain": false, "tickCount":"month"}
       },
       "y": {
         "aggregate": "sum",
@@ -32,14 +41,14 @@
         "axis": null
       },
       "color": {
-        "field":"continent", "scale":{"scheme": "category10"}
+        "field":"continent", "scale":{"scheme": "category10"},
+        "legend":{"title": "Continent"}
       },
       "tooltip": [
         {"field": "continent", "title": "Continent"},
-        {"field": "new_cases_smoothed_per_million", "aggregate":"sum", "title":"New Cases"},
+        {"field": "new_cases_smoothed_per_million", "aggregate":"sum", "title":"New Cases Per Million Population", "format":",d"},
         {"timeUnit": "yearmonth", "field": "date", "title": "Month and Year"}
       ]
     }
-    
   }
   
