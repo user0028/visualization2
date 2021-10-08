@@ -1,0 +1,101 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data-complete%20-%20Copy.csv"},
+    "transform": [
+        {"filter":{"field": "location", "equal":"World"}},
+        {"calculate": "toNumber(datum.new_cases_smoothed_per_million)", "as": "new_cases_smoothed_per_million"}
+    ],
+    "vconcat": [{
+        "width": 900,
+        "height": 600,
+        "projection": {"type": "equirectangular"},
+        "data": {
+            "url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid-covid-data-complete%20-%20Copy.csv"
+        },
+        "transform": [
+            {"filter": {"param": "time_brush"}},
+            {"calculate": "toNumber(datum.new_deaths_smoothed_per_million)", "as": "new_deaths_smoothed_per_million"},
+            {
+                "aggregate": [
+                    {"op": "sum", "field": "new_deaths_smoothed_per_million", "as": "new_deaths_smoothed_per_million"}
+                ],
+                "groupby": ["location"]
+            },
+            {
+                "lookup": "location",
+                "from": {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/user0028/visualization2/main/JS/world.geo.topojson",
+                        "format": {"type": "topojson", "feature": "world.geo"}
+                    },
+                    
+                    "key": "properties.name"
+                },
+                "as":"geo"
+            }
+        ],
+        "mark": {"type": "geoshape"},
+        "encoding": {
+            "shape":{
+                "field": "geo",
+                "type":"geojson"
+            },
+            "color": {
+                "field": "new_deaths_smoothed_per_million",
+                "type": "quantitative",
+                "scale": {"scheme": "reds"},
+                "legend": {"title": ["Total Deaths/1M", "Population"], "labelFontSize": 13 , "titleFontSize": 15}
+            },
+            "tooltip": [
+                
+                {"field": "location", "type": "nominal", "title": "Country"},
+                {"field": "new_deaths_smoothed_per_million", "type": "quantitative", "title": "total Deaths/1M Population"}
+            ]
+        }
+    }, 
+    {
+      "width": 480,
+      "height": 60,
+      "mark": {"type":"area", "color":"red"},
+      "title": "New Deaths over time (Select time period to filter the map above) ",
+      "params": [{
+        "name": "time_brush",
+        "select": {"type": "interval", "encodings": ["x"]}
+      }],
+      "encoding": {
+        "x": {
+          "field": "date",
+          "type": "temporal"
+        },
+        "y": {
+          "field": "new_deaths_smoothed_per_million",
+          "type": "quantitative",
+          "title": "Deaths/1M population",
+          "axis": {"tickCount": 3, "grid": false}
+        }
+      }
+    }],
+    "config": {
+        "background": "#292d36",
+        "text": {
+            "color":"white"
+        },
+       
+        "style": {
+            "cell": {
+                "stroke": "transparent"
+            }
+        },
+        "axis": {
+            "titleColor":"#bebecc", "labelColor":"#bebecc", "gridColor": "#3a3a3d"
+        },
+        "legend": {
+            "titleColor":"#bebecc", "labelColor":"#bebecc"
+        },
+        "title":{
+            "color":"#bebecc"
+        }
+    }
+
+}
+  
