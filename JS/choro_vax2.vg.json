@@ -1,6 +1,6 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 900,
+    "width": 850,
     "height": 600,
     
     "config": {
@@ -20,8 +20,7 @@
     },
     "projection": {"type": "equirectangular"},
     "data": {
-        "url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_choro_vax.csv"
-        
+        "url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_choro_vax.csv"      
     },
     
     "transform": [
