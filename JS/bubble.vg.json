@@ -1,0 +1,79 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 700, "height": 400,
+    "background": "#292d36",
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_bubble_cases.csv"},
+    "mark": {
+      "type": "circle",
+      "opacity": 0.8,
+      "stroke": "black",
+      "strokeWidth": 1
+    },
+    "transform": [
+        {
+          "calculate": "toNumber(datum.new_cases_smoothed_per_million)",
+          "as": "new_cases_smoothed_per_million"
+        },
+        {
+          "filter": 
+          {"and": [
+            {"field": "continent", "valid": false},
+            {"field": "date", "lte":{"year": 2021, "month":"sep", "date": 30}}
+            ]
+          }
+          
+
+        },
+        {
+          "timeUnit":"yearmonth",
+          "field": "date",
+          "as":"date2"
+        },
+        
+        {
+            "aggregate": [
+                {"op": "sum", "field": "new_cases_smoothed_per_million", "as": "new_cases_smoothed_per_million"}
+              ],
+            "groupby": ["date2", "continent"]
+        }
+    ],
+    "encoding": {
+      "x": {
+        "field": "date2",
+        "type":"temporal",
+        "title": "Date (2020-2021)",
+        "scale": {"type": "sqrt"},
+        "axis": {"format": "%b", "tickCount":"month", "domain": false, "grid": false}
+      },
+      "y": {
+        "field": "continent",
+        "title": "Continent",
+        "axis": {"domain": false, "title":null}
+      },
+      "size":{
+        "field": "new_cases_smoothed_per_million",
+        "type": "quantitative",
+        "scale": {"rangeMax": 5000},
+        "legend":{"rowPadding": 30}
+        
+      },
+      "tooltip": [
+        {"field": "new_cases_smoothed_per_million", "title":"New cases/Million population", "format":",d"},
+        {"field": "continent"}
+      ],
+      "color": {
+        "field":"continent", "scale":{"scheme": "category10"},
+        "type": "ordinal",
+        "legend": null
+      }
+    },
+    "config": {
+      "style": {
+        "cell": {
+          "stroke": "transparent"
+        }
+      },
+      "axis": {"gridColor": "#414146", "titleColor":"#bebecc", "labelColor":"#bebecc", "labelFontSize": 13 , "titleFontSize": 15},
+      "legend": {"titleColor":"#bebecc", "labelColor":"#bebecc", "symbolFillColor":"#bebecc", "labelFontSize": 13, "title": null}
+    }
+  }
