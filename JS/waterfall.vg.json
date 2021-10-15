@@ -90,18 +90,19 @@
       {
         "mark": {"type": "text", "dy": -4, "baseline": "bottom"},
         "encoding": {
-          "y": {"field": "sum_inc", "type": "quantitative"},
+          "y": {"field": "sum_inc", "type": "quantitative", "axis":null},
           "text": {
             "field": "sum_inc", 
             "type": "nominal", 
             "format":",d"},
+            
           "color":{"value":"#bebecc"}
         }
       },
       {
         "mark": {"type": "text", "dy": 4, "baseline": "top"},
         "encoding": {
-          "y": {"field": "sum_dec", "type": "quantitative"},
+          "y": {"field": "sum_dec", "type": "quantitative",  "axis":null},
           "text": {
             "field": "sum_dec",
             "type": "nominal",
