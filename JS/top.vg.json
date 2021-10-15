@@ -1,6 +1,6 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 600, "height": 400,
+    "width": 657, "height": 400,
     "background": "#292d36",
     "config": {
       "style": {
@@ -49,7 +49,6 @@
         }
         
     ],
-    "mark": {"type": "bar"},
     "encoding": {
       "y": {
             "field": "location", "title":"Country",
@@ -73,7 +72,23 @@
         {"field": "Total Vaccinated", "title": "% Of People With At Least One Dose"}
 
       ]
-    }
+    },
+    "layer": [
+      {
+        "mark": {"type": "bar"}
+      }, 
+      {
+        "mark": {
+          "type": "text",
+          "align": "left",
+          "baseline": "middle",
+          "dx": 3
+        },
+        "encoding": {
+          "text": {"field": "Total Vaccinated", "type": "quantitative"}
+        }
+      }
+    ]
     
   }
   
