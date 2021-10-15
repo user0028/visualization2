@@ -1,5 +1,5 @@
 var vg_1 = "JS/multi4.vg.json";
-var vg_2 = "JS/bubble.vg.json";
+var vg_2 = "JS/waterfall.vg.json";
 var vg_3 = "JS/top.vg.json";
 var vg_4 = "JS/area2.vg.json";
 var vg_5 = "JS/choro_vax2.vg.json";
