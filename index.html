@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+    <!-- Import pure.css -->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <script src="viz2.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="CSS/style.css" media="all">
+
+    <title>Visualization 2</title>
+</head>
+
+<body>
+
+ <div class = "page">
+
+    <!-- Main heading -->
+     <div class = "pure-g">
+         <div class="pure-u-1-1">
+            <h1>Covid 19 : A Deadly Disease</h1>
+            <!-- <p> Testing a sentence </p> -->
+         </div>
+     </div>
+
+     <!-- First topic -->
+     <div class = "pure-g">
+        <div class="pure-u-1-1">
+           <h2>Monthly New Cases Reported In 2021</h2>
+           <!-- <p> Testing a sentence </p> -->
+        </div>
+    </div>
+
+    <!-- First chart -->
+    <div class = "container">
+        <div class = "pure-g">
+            <div class="pure-u-2-3">
+                <div id="stream_graph" class="vis-container">
+                </div>
+            </div>
+    
+            <div class="pure-u-1-3">
+                <div class="description description-right">
+                    <p>A large number of of new cases were reported in the begining of 2021, but has overall reduced as of September</p>
+                    <p></p>
+                    <p>From these new cases that are being reported, there are four main variants of SARS-COV 2 spreading globally. Namely,</p>
+                    <p> The Alpha variant which originated in the UK,</p>
+                    <p>     The Beta variant that originated from South Africa,</p>
+                    <p>     The Gamma variation that originated from Brazil,</p>
+                    <p>     And the Delta variant which originated in India.</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+     
+
+    <!-- Second topic -->
+    <div class = "pure-g">
+        <div class="pure-u-1-1">
+            <h2> Total deaths due to covid around the world:</h2>
+        </div>
+    </div>
+
+    <!-- Second chart -->
+    <div class = "container">
+        <div class = "pure-g">
+            <div class="pure-u-2-3">
+                <div id="choropleth_death">
+                </div>
+            </div>
+    
+            <div class="pure-u-1-3">
+                <div class="description description-right">
+                <p></p>
+                <p>From around November 2020 to around May 2021, Europe has had the highest amount of Covid-19 deaths per million population.</p>
+                    <p></p>
+                    <p>From around May to July, there was significant a drop in new deaths, mainly in the Europe region causing global new cases to go down as a result</p>
+                    <p>On the other hand, Oceania has had a significantly lower spread of cases throughout the lifetime of the disease.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <!-- Third topic -->
+    <div class = "pure-g">
+        <div class="pure-u-1-1">
+            <h2> How far is the world vaccinated?</h2>
+        </div>
+    </div>
+
+    <!-- Third chart -->
+    <div class = "container">
+        <div class = "pure-g">
+            <div class="pure-u-1-1">
+                <div id="choropleth_vax">
+                </div>
+            </div>
+    
+            <!-- <div class="pure-u-1-3">
+                <div class="description description-right">
+                <p>Similar to the previous section, but the colum partition is swapped. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed. Egestas purus viverra accumsan in nisl.</p>
+                <p>Similar to the previous section, but the colum partition is swapped. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed. Egestas purus viverra accumsan in nisl.</p>
+                <p>Similar to the previous section, but the colum partition is swapped. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed. Egestas purus viverra accumsan in nisl.</p>
+                </div>
+            </div> -->
+            
+        </div>
+    </div>
+    
+
+
+    <!-- Fourth chart -->
+    
+    <div class = "container">
+        <div class = "pure-g">
+        
+            <div class="pure-u-1-2">
+                <h3>Number of people vaccinated in the world</h3>
+                <div id="slope_chart">
+                </div>
+            </div>
+        
+        
+            <div class="pure-u-1-2">
+                <h3>Highest vaccinated countries</h3>
+                <div id="heat_map">
+                </div>
+            </div>
+        
+        </div>
+    </div>
+
+    
+    <!-- <div class = "pure-g">
+    
+        <div class="pure-u-1-2">
+            <h3>Number of people vaccinated in the world</h3>
+            <div id="slope_chart">
+            </div>
+        </div>
+    
+    
+        <div class="pure-u-1-2">
+            <h3>Highest vaccinated countries</h3>
+            <div id="heat_map">
+            </div>
+        </div>
+    
+    </div> -->
+
+    
+
+
+    <!-- Sixth topic -->
+    <div class = "pure-g">
+        <div class="pure-u-1-1">
+            <h2> Is the economy of a country related to its vaccination rate?</h2>
+        </div>
+    </div>
+
+    <!-- Sixth chart -->
+    <div class = "container">
+        <div class = "pure-g">
+            <div class="pure-u-1-1">
+                
+                <div id="waffle_chart">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- Seventh topic -->
+    <div class = "pure-g">
+        <div class="pure-u-1-1">
+            <h2> Analyzing the effect of vaccinations</h2>
+        </div>
+    </div>
+
+    <div class = "container">
+        <div class = "pure-g">
+            <div class="pure-u-1-2">
+                <h3> Comparison of people 
+                    <span style = "color: #19c24c">Recovered</span>    
+                    vs 
+                    <span style = "color: rgb(204, 30, 30)">Died</span>     
+                    of the 
+                    <span style = "color: rgb(238, 229, 229); font-weight: 500;" >Least vaccinated </span>    
+                    countries:
+                </h3>
+                <div id="multi_line">
+                </div>
+            </div>
+    
+            <div class="pure-u-1-2">
+                <h3> Comparison of people 
+                    <span style = "color: #19c24c">Recovered</span>    
+                    vs 
+                    <span style = "color: rgb(204, 30, 30)">Died</span>     
+                    of the 
+                    <span style = "color: rgb(238, 229, 229); font-weight: 500;">Most vaccinated </span>    
+                    countries:
+                </h3>
+                <div id="custom2">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+
+ </div>
+
+
+ 
+
+ 
+ </body>
+
+</html>
