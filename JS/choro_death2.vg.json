@@ -1,0 +1,66 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 900,
+    "height": 600,
+    
+    "config": {
+        "background": "#292d36",
+        "text": {
+            "color":"white"
+        },
+       
+        "style": {
+            "cell": {
+                "stroke": "transparent"
+            }
+        },
+        "legend": {
+            "titleColor":"#bebecc", "labelColor":"#bebecc"
+        }
+    },
+    "projection": {"type": "equirectangular"},
+    "data": {
+        "url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_choro_death.csv"
+        
+    },
+    
+    "transform": [
+        {"calculate": "toNumber(datum.total_deaths_per_million)", "as": "total_deaths_per_million"},
+        {
+            "aggregate": [
+                {"op": "max", "field": "total_deaths_per_million", "as": "total_deaths_per_million"}
+            ],
+            "groupby": ["location"]
+        },
+        {
+            "lookup": "location",
+            "from": {
+                "data": {
+                    "url": "https://raw.githubusercontent.com/user0028/visualization2/main/JS/world.geo.topojson",
+                    "format": {"type": "topojson", "feature": "world.geo"}
+                },
+                
+                "key": "properties.name"
+            },
+            "as":"geo"
+        }
+    ],
+    "mark": {"type": "geoshape"},
+    "encoding": {
+        "shape":{
+            "field": "geo",
+            "type":"geojson"
+        },
+        "color": {
+            "field": "total_deaths_per_million",
+            "type": "quantitative",
+            "scale": {"scheme": "reds"},
+            "legend": {"title": ["Total Deaths/1M", "Population"], "labelFontSize": 13 , "titleFontSize": 15}
+        },
+        "tooltip": [
+            
+            {"field": "location", "type": "nominal", "title": "Country"},
+            {"field": "total_deaths_per_million", "type": "quantitative", "title": "total Deaths/1M Population"}
+        ]
+    }
+} 
