@@ -1,0 +1,125 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_waterfall.csv"},
+    "width": 800,
+    "height": 450,
+    "transform": [
+        {
+            "filter": {"field": "location", "equal": "World"}
+        },
+        {"filter": {"timeUnit":"year", "field": "date", "equal":2021}},
+
+        {
+          "calculate": "toNumber(datum.change_in_new_cases)",  "as": "change_in_new_cases"
+        },
+
+        {
+          "aggregate": [
+            {"op": "max", "field": "change_in_new_cases", "as": "change_in_new_cases"}
+          ],
+          "groupby": ["period"]
+        },
+
+
+        {"window": [{"op": "sum", "field": "change_in_new_cases", "as": "sum"}]},
+        {"window": [{"op": "lead", "field": "period", "as": "lead"}]},
+        {
+        "calculate": "datum.lead === null ? datum.period : datum.lead",
+        "as": "lead"
+        },
+        {
+            "calculate": "datum.sum - datum.change_in_new_cases",
+            "as": "previous_sum"
+          },
+          {
+            "calculate": "datum.change_in_new_cases",
+            "as": "change_in_new_cases"
+          },
+       
+        {"calculate": "(datum.sum + datum.previous_sum) / 2", "as": "center"},
+        {
+        "calculate": "datum.sum < datum.previous_sum ? datum.sum : ''",
+        "as": "sum_dec"
+        },
+        {
+        "calculate": "datum.sum > datum.previous_sum ? datum.sum : ''",
+        "as": "sum_inc"
+        }
+    ],
+    "encoding": {
+      "x": {
+        "field": "period",
+        "type": "ordinal",
+        "sort": null,
+        "axis": {"title": "Months", "labelAngle":0}
+      }
+    },
+    "layer": [
+      {
+        "mark": {"type": "bar", "size": 75},
+        "encoding": {
+          "y": {
+            "field": "previous_sum",
+            "type": "quantitative",
+            "title": "New Cases",
+            "axis":{"grid": false}
+          },
+          "y2": {"field": "sum"},
+          "color": {
+            "condition": [
+              {"test": "datum.sum < datum.previous_sum", "value": "#0a8f20"}
+            ],
+            "value": "#b12810"
+          }
+        }
+      },
+      {
+        "mark": {
+          "type": "rule",
+          "color": "#beccc0",
+          "opacity": 1,
+          "strokeWidth": 2,
+          "xOffset": -37,
+          "x2Offset": 37
+        },
+        "encoding": {
+          "x2": {"field": "lead"},
+          "y": {"field": "sum", "type": "quantitative"}
+        }
+      },
+      {
+        "mark": {"type": "text", "dy": -4, "baseline": "bottom"},
+        "encoding": {
+          "y": {"field": "sum_inc", "type": "quantitative"},
+          "text": {
+            "field": "sum_inc", 
+            "type": "nominal", 
+            "format":",d"},
+          "color":{"value":"#bebecc"}
+        }
+      },
+      {
+        "mark": {"type": "text", "dy": 4, "baseline": "top"},
+        "encoding": {
+          "y": {"field": "sum_dec", "type": "quantitative"},
+          "text": {
+            "field": "sum_dec",
+            "type": "nominal",
+            "format":",d"
+            },
+          "color":{"value":"#bebecc"}
+        }
+      }
+    ],
+    "background": "#292d36",
+    "config": {
+      "style": {
+        "cell": {
+          "stroke": "transparent"
+        }
+      },
+      "axis": {"gridColor": "#414146", "titleColor":"#bebecc", "labelColor":"#bebecc", "labelFontSize": 13 , "titleFontSize": 15},
+      "legend": {"titleColor":"#bebecc", "labelColor":"#bebecc", "orient": "top", "labelFontSize": 13, "title": null}
+    }
+  }
+  
