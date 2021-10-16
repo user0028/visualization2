@@ -15,8 +15,8 @@
         {"calculate": "toNumber(datum.new_cases_smoothed_per_million)", "as": "new_cases_smoothed_per_million"}
     ],
     "vconcat": [{
-        "width": 850,
-        "height": 600,
+        "width": 1455,
+        "height": 525,
         "projection": {"type": "equirectangular"},
         "data": {
             "url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_interactive.csv"
@@ -73,14 +73,15 @@
               },
               {"filter":"datum.ranking == 1"},
               {
-                "calculate": " 'The country with the highest Deaths/1M population in the selected period: ' + datum['location']",
+                "calculate": " 'Highest deaths/1M population in the selected period: ' + datum['location']",
                 "as": "text_annotation" 
               }
             ],
             "mark":{
               "type": "text",
               "align":"left",
-              "dy":175
+              "dy":225,
+              "fontSize": 15
             },
             "encoding": {
               "text":{"field":"text_annotation"},
@@ -90,10 +91,10 @@
         ]
     }, 
     {
-      "width": 850,
-      "height": 320,
+      "width": 1455,
+      "height": 300,
       "mark": {"type":"area"},
-      "title": "Global Deaths Over Time (Select time period to filter the map above) ",
+      "title": {"text": "Global Deaths Over Time (Select time period to filter the map above)", "fontSize":17.5},
       "params": [{
         "name": "time_brush",
         "select": {"type": "interval", "encodings": ["x"]}
@@ -103,7 +104,7 @@
             "title": "Date",
             "field": "date", 
             "type": "temporal",
-            "axis": {"domain": false, "tickCount":"month"}
+            "axis": {"domain": false, "tickCount":"month", "grid": false}
         },
         "y": {
             "aggregate": "sum",
@@ -114,7 +115,24 @@
             "axis": null
         },
         "color":{
-            "field":"continent", "scale":{"scheme": "category10"},
+            "field":"continent", "scale": {
+                "domain": [
+                  "Africa",
+                  "Asia",
+                  "Europe",
+                  "North America",
+                  "Oceania",
+                  "South America"
+                ],
+                "range": [
+                  "#0095ff",
+                  "#ff7f0e",
+                  "#33b933",
+                  "#f2cf5b",
+                  "#9a4be4",
+                  "#8d5c53"
+                ]
+              },
             "legend": {"title":"Continent", "labelFontSize": 13 , "titleFontSize": 15}
         },
         "tooltip": [
@@ -126,7 +144,7 @@
       }
     }],
     "config": {
-        "background": "#292d36",
+        "background": "#222324",
         "text": {
             "color":"white"
         },
@@ -136,7 +154,7 @@
             }
         },
         "axis": {
-            "titleColor":"#bebecc", "labelColor":"#bebecc", "gridColor": "#3a3a3d"
+            "titleColor":"#bebecc", "labelColor":"#bebecc", "gridColor": "#3a3a3d", "labelFontSize": 13
         },
         "legend": {
             "titleColor":"#bebecc", "labelColor":"#bebecc"

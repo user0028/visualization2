@@ -1,10 +1,9 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 1375,
-    "height": 600,
-    
+    "width": 1472,
+    "height": 550,
     "config": {
-        "background": "#292d36",
+        "background": "#222324",
         "text": {
             "color":"white"
         },
@@ -16,6 +15,10 @@
         },
         "legend": {
             "titleColor":"#bebecc", "labelColor":"#bebecc"
+        },
+        "title": {
+            "fontSize":17.5,
+            "color": "#bebecc"
         }
     },
     "projection": {"type": "equirectangular"},
@@ -45,7 +48,9 @@
             "as":"geo"
         }
     ],
-    "mark": {"type": "geoshape"},
+    "mark": {
+        "type": "geoshape"
+    },
     "encoding": {
         "shape":{
             "field": "geo",
@@ -55,7 +60,7 @@
             "field": "people_vaccinated_per_hundred",
             "type": "quantitative",
             "scale": {"scheme": "blues"},
-            "legend": {"title": ["Percentage of", "Vaccinated", "Population"], "labelFontSize": 13 , "titleFontSize": 15}
+            "legend": {"title": ["Percentage of", "Population", "with at", "least one", "dose"], "labelFontSize": 13 , "titleFontSize": 15}
         },
         "tooltip": [
             

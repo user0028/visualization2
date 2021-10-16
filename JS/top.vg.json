@@ -1,94 +1,98 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 657, "height": 400,
-    "background": "#292d36",
-    "config": {
-      "style": {
-        "cell": {
-          "stroke": "transparent"
-        }
-      },
-      "axis": {"gridColor": "#414146", "titleColor":"#bebecc", "labelColor":"#bebecc", "labelFontSize": 13 , "titleFontSize": 15},
-      "legend": {"titleColor":"#bebecc", "labelColor":"#bebecc", "orient": "top", "labelFontSize": 13 , "title": null}
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 638, "height": 375,
+  "background": "#222324",
+  "config": {
+    "style": {
+      "cell": {
+        "stroke": "transparent"
+      }
     },
-    "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_stack.csv"},
-    
-    "transform": [
-        {
-            "filter": {"not": {"field": "location", "oneOf": ["World", "Asia", "Europe", "North America", "South America", "Africa", "Oceania", "European Union", "Gibraltar", "Pitcairn"]}}
-        },
-        {
-          "calculate": "toNumber(datum.people_vaccinated_per_hundred)",
-          "as": "people_vaccinated_per_hundred"
-        },
-        {
-            "calculate": "toNumber(datum.people_fully_vaccinated_per_hundred)",
-            "as": "people_fully_vaccinated_per_hundred"
-        },
-        
-        {
-            "aggregate": [
-                {"op": "max", "field": "people_vaccinated_per_hundred", "as": "Total Vaccinated"}, 
-                {"op": "max", "field": "people_fully_vaccinated_per_hundred", "as": "Fully Vaccinated"}
-              ],
-            "groupby": ["location"]
-        },
-        {"calculate": "datum['Total Vaccinated']-datum['Fully Vaccinated']", "as": "Partially Vaccinated"},
-        {
-            "window": [{
-              "op": "rank",
-              "as": "rank"
-            }],
-            "sort": [{ "field": "Total Vaccinated", "order": "descending" }]
-        }, 
-        {
-            "filter": "datum.rank <= 7"
-        },
-        {
-            "fold": ["Partially Vaccinated", "Fully Vaccinated"]
-        }
-        
-    ],
-    "encoding": {
-      "y": {
-            "field": "location", "title":"Country",
-            "sort": {"field": "Total Vaccinated", "order": "descending"},
-            "axis":{"domain": false, "title":null}
+    "axis": {"gridColor": "#414146", "titleColor":"#bebecc", "labelColor":"#bebecc", "labelFontSize": 13 , "titleFontSize": 15},
+    "legend": {"titleColor":"#bebecc", "labelColor":"#bebecc", "orient": "top", "labelFontSize": 13 , "title": null}
+  },
+  "data": {"url": "https://raw.githubusercontent.com/user0028/visualization2/main/Data/owid_cleaned_stack.csv"},
+  
+  "transform": [
+      {
+          "filter": {"not": {"field": "location", "oneOf": ["World", "Asia", "Europe", "North America", "South America", "Africa", "Oceania", "European Union", "Gibraltar", "Pitcairn"]}}
+      },
+      {
+        "calculate": "toNumber(datum.people_vaccinated_per_hundred)",
+        "as": "people_vaccinated_per_hundred"
+      },
+      {
+          "calculate": "toNumber(datum.people_fully_vaccinated_per_hundred)",
+          "as": "people_fully_vaccinated_per_hundred"
       },
       
-      "x": {
-            "field": "value", "type": "quantitative", "title":"Percentage Vaccinated",
-            "axis":{"grid": false, "domain": false}
-      },
-
-      "color":{
-          "field":"key",
-          "scale": {"scheme": "darkblue"}
-      },
-
-      "tooltip":[
-        {"field": "Fully Vaccinated", "title": "% of People Fully Vaccinated"},
-        {"field": "Partially Vaccinated", "title": "% People of Partially Vaccinated"},
-        {"field": "Total Vaccinated", "title": "% Of People With At Least One Dose"}
-
-      ]
-    },
-    "layer": [
       {
-        "mark": {"type": "bar"}
+          "aggregate": [
+              {"op": "max", "field": "people_vaccinated_per_hundred", "as": "Total Vaccinated"}, 
+              {"op": "max", "field": "people_fully_vaccinated_per_hundred", "as": "Fully Vaccinated"}
+            ],
+          "groupby": ["location"]
+      },
+      {"calculate": "datum['Total Vaccinated']-datum['Fully Vaccinated']", "as": "Partially Vaccinated"},
+      {
+          "window": [{
+            "op": "rank",
+            "as": "rank"
+          }],
+          "sort": [{ "field": "Total Vaccinated", "order": "descending" }]
       }, 
       {
-        "mark": {
+          "filter": "datum.rank <= 7"
+      },
+      {
+          "fold": ["Partially Vaccinated", "Fully Vaccinated"]
+      }
+      
+  ],
+  "encoding": {
+   
+    
+    "x": {
+          "field": "value", "type": "quantitative", "title":"Percentage Vaccinated",
+          "axis":{"grid": false, "domain": false}
+    },
+    "y": {
+              "field": "location", "type": "ordinal", "sort": "opacity", "title":"Country"
+          },
+          
+   "opacity": { "field": "rank", "legend":null, "scale":{
+       "range":[1,1]
+   }},
+    "tooltip":[
+      {"field": "Fully Vaccinated", "title": "% of People Fully Vaccinated", "format":".2f"},
+        {"field": "Partially Vaccinated", "title": "% People of Partially Vaccinated", "format":".2f"},
+        {"field": "Total Vaccinated", "title": "% Of People With At Least One Dose", "format":".2f"}
+
+    ]
+  },
+  "layer": [
+    {
+      "mark": {"type": "bar"},
+      "encoding": {
+          "color":{
+            "field":"key",
+            "scale": {"domain": ["Fully Vaccinated", "Partially Vaccinated"], "range":["#17becf", "#72d1e2"]}
+              }
+      }
+    },{
+    "transform": [
+      {"calculate": "datum['Total Vaccinated'] - datum.value", "as": "value_2"}
+    ],
+      "mark": {
           "type": "text",
           "align": "left",
           "baseline": "middle",
-          "dx": 3
-        },
-        "encoding": {
-          "text": {"field": "Total Vaccinated", "type": "quantitative"}
-        }
+          "dx": 3,
+          "color": "white"
+      },
+      "encoding": {
+          "text": { "field": "value_2", "type": "quantitative" }
       }
-    ]
-    
-  }
+  }]
   
+}

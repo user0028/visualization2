@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 600, "height": 400,
-  "background": "#292d36",
+  "width": 657, "height": 375,
+  "background": "#222324",
   "config": {
     "style": {
       "cell": {
@@ -107,7 +107,7 @@
     },
     "color": {
       "field": "key",
-      "scale": {"scheme": "darkblue"}
+      "scale": {"domain": ["Fully Vaccinated", "Partially Vaccinated"], "range":["#17becf", "#72d1e2"]}
     },
     "tooltip": [
       {"field": "Partially Vaccinated", "title": "Partially Vaccinated", "format":",d"},
