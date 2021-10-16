@@ -54,9 +54,11 @@ margin-top:0px;
 }
 .description-right {
 padding-left: 20px;
+background-color:#222324;
 }
 .description-left{
-padding-right: 20px;
+padding-right: 100px;
+background-color:#222324;
 }.description-center{
     text-align: center;
     background-color:#222324;
