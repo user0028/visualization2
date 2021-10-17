@@ -154,7 +154,7 @@
         "color": {"value": "#bebecc"},
         "opacity": {
         "condition": {
-        "test": "datum['location'] == 'China' || datum['location'] =='Australia' || datum['location'] == 'India' || datum['location'] == 'Malaysia' || datum['location'] == 'Italy' || datum['location'] == 'Yemen' ||datum['location'] == 'United Arab Emirates'",
+        "test": "datum['location'] == 'China' || datum['location'] =='Australia' || datum['location'] == 'India' || datum['location'] == 'Malaysia' || datum['location'] == 'Italy' || datum['location'] == 'Qatar' ||datum['location'] == 'United Arab Emirates'",
       "value": 1
       },
       "value": 0
