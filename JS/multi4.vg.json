@@ -81,6 +81,7 @@
               "type": "text",
               "align":"left",
               "dy":225,
+              "dx":-105,
               "fontSize": 15
             },
             "encoding": {
