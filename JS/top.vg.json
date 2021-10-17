@@ -57,7 +57,8 @@
           "axis":{"grid": false, "domain": false}
     },
     "y": {
-              "field": "location", "type": "ordinal", "sort": "opacity", "title":"Country"
+              "field": "location", "type": "ordinal", "sort": "opacity", "title":"Country",
+              "axis":{"grid": false, "domain": false}
           },
           
    "opacity": { "field": "rank", "legend":null, "scale":{
